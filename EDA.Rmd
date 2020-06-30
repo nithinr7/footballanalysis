@@ -1,0 +1,11 @@
+---
+output:
+  html_document:
+    df_print: paged
+---
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(ggrepel)
+library(ggimage)
+library(nflfastR)
+```
