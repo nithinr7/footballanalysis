@@ -3,9 +3,31 @@ output:
   html_document:
     df_print: paged
 ---
-```{r load-packages, message = FALSE}
+
+
+```{r set-up-load-packages, message = FALSE}
 library(tidyverse)
 library(ggrepel)
 library(ggimage)
 library(nflfastR)
+options(scipen = 9999)
 ```
+
+```{r load-pbp-data}
+data <- readRDS(url('https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds'))
+```
+
+```{r eval-PIT-rbs}
+pbp_rp <- data %>%
+  filter(rush == 1 | pass == 1, !is.na(epa))
+
+pbp_rp %>%
+  filter(posteam == "PIT", rush == 1, rusher == "J.Conner") %>%
+  ggplot(aes(x = yards_gained)) %>%
+  + geom_histogram(binwidth = 1)
+```
+
+```{r summarize}
+
+
+
