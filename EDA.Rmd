@@ -17,17 +17,22 @@ options(scipen = 9999)
 data <- readRDS(url('https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_2019.rds'))
 ```
 
-```{r eval-PIT-rbs}
+```{r summarize-run-vs-pass-1st-down}
 pbp_rp <- data %>%
-  filter(rush == 1 | pass == 1, !is.na(epa))
+  filter(play_type == "pass" | play_type == "run", !is.na(epa),
+         posteam == "PIT", !is.na(down)) %>%
+  group_by(down)
 
 pbp_rp %>%
-  filter(posteam == "PIT", rush == 1, rusher == "J.Conner") %>%
-  ggplot(aes(x = yards_gained)) %>%
-  + geom_histogram(binwidth = 1)
+  summarize(count = n())
 ```
 
-```{r summarize}
+```{r plot-run-vs-pass-1st-down}
+pbp_rp %>%
+  ggplot(aes(x = down, fill = play_type, y = count(play_type)) +
+  geom_bar(position="dodge", stat="identity")
+```
+
 
 
 
